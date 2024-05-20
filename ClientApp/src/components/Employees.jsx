@@ -1,9 +1,11 @@
-﻿import {useState} from "react"
+﻿import {useState, useEffect} from "react"
 import femaleProfile from "./images/femaleProfile.jpg"
 import maleProfile from "./images/maleProfile.jpg"
 
 const Employees = () => {
-    const [employees, setEmployees] = useState([{
+    //localStorage.clear();
+    //const employeeList = [];
+    const [employees, setEmployees] = useState(JSON.parse(localStorage.getItem('employeeList')) || [{
         id: 1,
         fullName: "Bob Jones",
         designation: "JavaScript Developer",
@@ -87,8 +89,16 @@ const Employees = () => {
         gender: "male",
         teamName: "TeamD"
         }])
-   
-        const [selectedTeam, setTeam] = useState('TeamB');
+
+    const [selectedTeam, setTeam] = useState(JSON.parse(localStorage.getItem('selectedTeam')) || 'TeamB');
+
+    useEffect(() => {
+        localStorage.setItem('employeeList', JSON.stringify(employees));
+    }, [employees]);
+
+    useEffect(() => {
+        localStorage.setItem('selectedTeam', JSON.stringify(selectedTeam));
+    }, [selectedTeam]);
 
     function handleTeamSelectionChange(event){
         //console.log(event.target.value);
@@ -96,8 +106,8 @@ const Employees = () => {
     }
 
     function handleEmployeeCardClick(event) {
-        const filteredEmployees = employees.map(e => e.id === parseInt(event.currentTarget.id) ? (e.teamName === selectedTeam)
-            ? { ...e, teamName: '' } : { ...e, teamName: selectedTeam } :e);
+       const filteredEmployees = employees.map(e => e.id === parseInt(event.currentTarget.id) ? (e.teamName === selectedTeam
+            ? { ...e, teamName : '' } : { ...e, teamName:selectedTeam }) : e);
         setEmployees(filteredEmployees);
     }
 
@@ -113,7 +123,7 @@ const Employees = () => {
                     </select>
                     <div className="card-collection">
                         {employees.map((e) =>
-                        (<div id={e.id} className={e.teamName === selectedTeam ?'card m-2 standout':'card m-2'} onClick={handleEmployeeCardClick}>
+                        (<div key={e.id } id={e.id} className={e.teamName === selectedTeam ?'card m-2 standout':'card m-2'} onClick={handleEmployeeCardClick}>
                 {(e.gender === 'male') ? <img src={maleProfile} className="card-img-top" /> : <img src={femaleProfile} className="card-img-top" />}
                     <div className="card-body">
                     <h5 className="card-title">Full name: {e.fullName}</h5>

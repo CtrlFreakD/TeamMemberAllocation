@@ -25,3 +25,7 @@ code {
 .standout {
     border: 3px solid black;
 }
+
+h1, h2, h3, h4, h5, p {
+ text-align: center;
+}
