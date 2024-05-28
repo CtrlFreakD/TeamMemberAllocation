@@ -1,12 +1,12 @@
-﻿const Header = ({selectedTeam,teamMemberCount }) => {
+﻿const NotFound = () => {
     return (
         <header className="container">
             <div className="row justify-content-center mt-3 mb-4">
                 <div className="col-8">
-                    <h5>{selectedTeam} has {teamMemberCount} {teamMemberCount === 1 ? 'member' :'members' }</h5>
+                    <h4 className="text-danger">404 - Page Not Found</h4>
                 </div>
             </div>
         </header>
     )
 }
-export default Header;
+export default NotFound;
